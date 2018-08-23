@@ -1,0 +1,26 @@
+function braces(str) {
+    var input = str.split('');
+    var flag = true;
+    var openBraces = '({[';
+    var closeBraces = ')}]';
+    var aux, aux2;
+    var stack = [];
+    input.map(function(x) {
+        if(openBraces.indexOf(x) != -1){
+            stack.push(x);
+        }
+        else if(closeBraces.indexOf(x) != -1){
+          if((aux = stack.pop()) != null ){
+             if(openBraces.indexOf(aux) != closeBraces.indexOf(x))
+                 flag = false;
+          }
+          else{
+            flag = false;
+          }
+      }
+    });
+    if(stack.length != 0)
+        return false;
+    return flag;
+
+}
