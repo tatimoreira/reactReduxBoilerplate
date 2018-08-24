@@ -22,13 +22,18 @@ class CoursesPage extends React.Component {
 
   onClickSave (event) {
     //this is a very verbose way to dispatch an action
-    this.props.dispatch(courseActions.createCourse(this.state.course))
+    this.props.dispatch(courseActions.createCourse(this.state.course));
+  }
+
+  courseRow(course, index){
+    return <div key={index}>{course.title} </div>;
   }
 
   render() {
     return (
       <div>
         <h1>Courses</h1>
+        {this.props.courses.map(this.courseRow)}
         <h2>Add Course</h2>
         <input
         type="text"
@@ -44,10 +49,15 @@ class CoursesPage extends React.Component {
   }
 }
 
+CoursesPage.propTypes ={
+  dispatch: PropTypes.func.isRequired,
+  courses : PropTypes.array.isRequired
+};
+
 function mapStateToProps(state, ownProps){
   return{
-    courses: state.courses; // courses es como decidi llamarle en el reducer
-  }
+    courses: state.courses // courses es como decidi llamarle en el reducer
+  };
 }
 
 //mapDispatchToProps can be omitted when is omitted the
@@ -58,4 +68,4 @@ function mapStateToProps(state, ownProps){
 //it takes the result form one function and passing it to the next function
 // const connectStateAndProps = connect(mapStateToProps, mapDispatchToProps)
 //export default connectStateAndProps(CoursesPage)
-export default connect(mapStateToProps)(CoursesPage) ; 
+export default connect(mapStateToProps)(CoursesPage);

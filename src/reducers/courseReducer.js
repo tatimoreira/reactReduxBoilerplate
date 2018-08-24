@@ -5,7 +5,7 @@
 //the state=[] represents the list of course
 export default function courseReducer (state=[], action ){
 	switch (action.type) {
-		'CREATE_COURSE' 
+		case 'CREATE_COURSE' :
 
 		//returns a brand-new state that contains the course passed in the action 
 		// The next code is wrong because the inmutabllty of state
@@ -13,7 +13,7 @@ export default function courseReducer (state=[], action ){
 		//return state;
 		
 			return [...state, 
-					Object.assign({}, action.course)]
+					Object.assign({}, action.course)];
 
 		default: 
 			return state;
