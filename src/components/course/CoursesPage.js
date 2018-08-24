@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseActions';
 
 class CoursesPage extends React.Component {
@@ -20,9 +21,11 @@ class CoursesPage extends React.Component {
     this.setState({course: course});
   }
 
-  onClickSave (event) {
+  onClickSave () {
     //this is a very verbose way to dispatch an action
-    this.props.dispatch(courseActions.createCourse(this.state.course));
+    //this.props.dispatch(courseActions.createCourse(this.state.course)) ;
+    //another clearear  approach is with the mapDispatchToProps
+    this.props.actions.createCourse(this.state.course);
   }
 
   courseRow(course, index){
@@ -50,17 +53,34 @@ class CoursesPage extends React.Component {
 }
 
 CoursesPage.propTypes ={
-  dispatch: PropTypes.func.isRequired,
-  courses : PropTypes.array.isRequired
+  //No longer use due to dispatch is no longer be injected in props because 
+  //we added the mapDispatchToProps
+  //dispatch: PropTypes.func.isRequired,
+  courses : PropTypes.array.isRequired,
+
+  //with bindActionCreator is not anymore a func but an obect of func
+ // createCourse: PropTypes.func.isRequired,
+  actions : PropTypes.object.isRequired
 };
 
+//2) approach with mapDispatchToProps instead of dispatch directly 
+function mapDispatchToProps (dispatch){
+  return{ 
+    //still verbose
+    //createCourse: course => dispatch(courseActions.createCourse(course))
+    //3) import bindActionCreators 
+    actions: bindActionCreators(courseActions, dispatch)
+  };
+}
 function mapStateToProps(state, ownProps){
   return{
     courses: state.courses // courses es como decidi llamarle en el reducer
   };
 }
 
-//mapDispatchToProps can be omitted when is omitted the
+//In this file 3 way to dispatch actions are shown 
+
+//1) mapDispatchToProps can be omitted when is omitted the
 //the component automatically gets a dispatch property
 //is a fucntion to fire the actons define in courseActions
 
@@ -68,4 +88,4 @@ function mapStateToProps(state, ownProps){
 //it takes the result form one function and passing it to the next function
 // const connectStateAndProps = connect(mapStateToProps, mapDispatchToProps)
 //export default connectStateAndProps(CoursesPage)
-export default connect(mapStateToProps)(CoursesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
