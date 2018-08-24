@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
-
+import {connect} from 'react-redux';
+import * as courseActions from '../../actions/courseActions';
 
 class CoursesPage extends React.Component {
   constructor(props, context){
@@ -20,7 +21,8 @@ class CoursesPage extends React.Component {
   }
 
   onClickSave (event) {
-    alert('Save ' + this.state.course.title);
+    //this is a very verbose way to dispatch an action
+    this.props.dispatch(courseActions.createCourse(this.state.course))
   }
 
   render() {
@@ -42,4 +44,18 @@ class CoursesPage extends React.Component {
   }
 }
 
-export default CoursesPage ;
+function mapStateToProps(state, ownProps){
+  return{
+    courses: state.courses; // courses es como decidi llamarle en el reducer
+  }
+}
+
+//mapDispatchToProps can be omitted when is omitted the
+//the component automatically gets a dispatch property
+//is a fucntion to fire the actons define in courseActions
+
+// es lo mismo nada mas que mas functional programming oriented 
+//it takes the result form one function and passing it to the next function
+// const connectStateAndProps = connect(mapStateToProps, mapDispatchToProps)
+//export default connectStateAndProps(CoursesPage)
+export default connect(mapStateToProps)(CoursesPage) ; 
