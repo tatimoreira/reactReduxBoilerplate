@@ -2,42 +2,45 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as courseActions from '../../actions/courseActions';
+import CourseList from './CourseList';
 
 class CoursesPage extends React.Component {
   constructor(props, context){
     super(props, context);
-    this.state= {
+    /*this.state= {
       course: {title : ""}
-    };
+    };*/
     //En ES6 no se hace autobinding como en ES5 hay q hacerlos a pata
       //po performance no ponerlo en el markup onChange={this.onTitleChange.bind(this)} q cada vez q renderea generaria una funcion 
-      this.onTitleChange = this.onTitleChange.bind(this);
-      this.onClickSave = this.onClickSave.bind(this);
+     // this.onTitleChange = this.onTitleChange.bind(this);
+      //this.onClickSave = this.onClickSave.bind(this);
   }
 
-  onTitleChange (event) {
+ /* onTitleChange (event) {
     const course = this.state.course;
     course.title = event.target.value;
     this.setState({course: course});
-  }
+  }*/
 
-  onClickSave () {
+  //onClickSave () {
     //this is a very verbose way to dispatch an action
     //this.props.dispatch(courseActions.createCourse(this.state.course)) ;
     //another clearear  approach is with the mapDispatchToProps
-    this.props.actions.createCourse(this.state.course);
-  }
+   // this.props.actions.createCourse(this.state.course);
+  //}
 
   courseRow(course, index){
     return <div key={index}>{course.title} </div>;
   }
 
   render() {
+    const {courses} = this.props;
     return (
       <div>
         <h1>Courses</h1>
-        {this.props.courses.map(this.courseRow)}
-        <h2>Add Course</h2>
+        <CourseList courses={courses} />
+
+       {/*<h2>Add Course</h2>
         <input
         type="text"
         onChange={this.onTitleChange}
@@ -46,7 +49,7 @@ class CoursesPage extends React.Component {
         <input
         type="submit"
         onClick={this.onClickSave}
-        value="Save" />
+        value="Save" />*/} 
       </div>
     );
   }

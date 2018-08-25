@@ -6,16 +6,17 @@ import * as types from '../actions/actionTypes';
 //the state=[] represents the list of course
 export default function courseReducer (state=[], action ){
 	switch (action.type) {
-		case types.CREATE_COURSE :
+		//case types.CREATE_COURSE :
 
 		//returns a brand-new state that contains the course passed in the action 
 		// The next code is wrong because the inmutabllty of state
 		// state.push(action.course)
 		//return state;
 		
-			return [...state, 
-					Object.assign({}, action.course)];
-
+			//return [...state, 
+					//Object.assign({}, action.course)];
+		case types.LOAD_COURSES_SUCCESS:
+			return action.courses;
 		default: 
 			return state;
 	}
