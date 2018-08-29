@@ -1,6 +1,6 @@
 import * as types from './actionTypes';
 import courseApi from '../api/mockCourseApi';
-//import {beginAjaxCall, ajaxCallError} from './ajaxStatusActions';
+import {beginAjaxCall} from './ajaxStatusActions';
 
 export  function loadCoursesSuccess (courses) {
 	//ES6 shorthand property in contrast in ES5 would be course:course
@@ -18,6 +18,7 @@ export function updateCourseSuccess(course) {
 //a thunk always return a function tha accepts a dispatch
 export function loadCourses (){
 	return function(dispatch){
+		dispatch(beginAjaxCall());
 		return courseApi.getAllCourses().then(courses =>{
 			dispatch(loadCoursesSuccess(courses));
 		}).catch(error => {
@@ -28,7 +29,7 @@ export function loadCourses (){
 
 export function saveCourse(course) {
   return function (dispatch, getState) {
-    //dispatch(beginAjaxCall());
+    dispatch(beginAjaxCall());
     return courseApi.saveCourse(course).then(course => {
       course.id ? dispatch(updateCourseSuccess(course)) : dispatch(createCourseSuccess(course));
     }).catch(error => {
